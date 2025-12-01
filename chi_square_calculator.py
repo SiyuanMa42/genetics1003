@@ -318,7 +318,7 @@ class ContingencyTableCalculator:
             raise ValueError("Contingency table must have exactly 2 rows")
         if len(self.table[0]) != 2 or len(self.table[1]) != 2:
             raise ValueError("Contingency table must have exactly 2 columns")
-        
+
         for row in self.table:
             for value in row:
                 if value < 0:
@@ -412,7 +412,7 @@ class ContingencyTableCalculator:
                     corrected_diff = abs(obs - exp) - 0.5
                     if corrected_diff < 0:
                         corrected_diff = 0
-                    chi_square += (corrected_diff ** 2) / exp
+                    chi_square += (corrected_diff**2) / exp
 
         return chi_square
 
@@ -512,7 +512,7 @@ class ContingencyTableCalculator:
             Dictionary containing test results
         """
         expected = self.calculate_expected()
-        
+
         # Determine if correction should be used
         if use_correction is None:
             use_correction = self.should_use_correction()
@@ -535,7 +535,11 @@ class ContingencyTableCalculator:
             "marginals": marginals,
             "yates_correction_used": use_correction,
             "significance_level": 0.05,
-            "result": "Reject H0 (variables are associated)" if p_value < 0.05 else "Fail to reject H0 (variables are independent)",
+            "result": (
+                "Reject H0 (variables are associated)"
+                if p_value < 0.05
+                else "Fail to reject H0 (variables are independent)"
+            ),
         }
 
     def print_results(self, results: dict):
@@ -545,7 +549,7 @@ class ContingencyTableCalculator:
         print("=" * 60)
 
         print(f"Chi-square statistic: {results['chi_square_statistic']:.4f}")
-        if results['yates_correction_used']:
+        if results["yates_correction_used"]:
             print("  (with Yates' continuity correction)")
         print(f"Degrees of freedom: {results['degrees_of_freedom']}")
         print(f"P-value: {results['p_value']:.6f}")
@@ -558,7 +562,9 @@ class ContingencyTableCalculator:
         print("          Column 1    Column 2    Total")
         print(f"Row 1     {obs[0][0]:8.0f}    {obs[0][1]:8.0f}    {results['marginals']['row1_total']:8.0f}")
         print(f"Row 2     {obs[1][0]:8.0f}    {obs[1][1]:8.0f}    {results['marginals']['row2_total']:8.0f}")
-        print(f"Total     {results['marginals']['col1_total']:8.0f}    {results['marginals']['col2_total']:8.0f}    {results['marginals']['grand_total']:8.0f}")
+        print(
+            f"Total     {results['marginals']['col1_total']:8.0f}    {results['marginals']['col2_total']:8.0f}    {results['marginals']['grand_total']:8.0f}"
+        )
 
         print("\nExpected Frequencies:")
         print("-" * 40)
@@ -579,17 +585,17 @@ def main():
 Examples:
   # Goodness-of-Fit: Equal expected frequencies
   python chi_square_calculator.py -o 10 15 20 25
-  
+
   # Goodness-of-Fit: Specified expected frequencies
   python chi_square_calculator.py -o 10 15 20 25 -e 12 14 18 26
-  
+
   # Goodness-of-Fit: Specified expected proportions
   python chi_square_calculator.py -o 45 55 -p 0.5 0.5
-  
+
   # 2×2 Contingency Table
   python chi_square_calculator.py -t 20 10 5 15
   (Format: a b c d for table [[a, b], [c, d]])
-  
+
   # 2×2 Contingency Table with Yates' correction
   python chi_square_calculator.py -t 20 10 5 15 --yates
         """,
@@ -615,15 +621,19 @@ Examples:
             # Create 2×2 table
             table = [[args.table[0], args.table[1]], [args.table[2], args.table[3]]]
             calculator = ContingencyTableCalculator(table=table)
-            
+
             # Perform test
             results = calculator.perform_test(use_correction=args.yates if args.yates else None)
             results["significance_level"] = args.alpha
-            results["result"] = "Reject H0 (variables are associated)" if results["p_value"] < args.alpha else "Fail to reject H0 (variables are independent)"
-            
+            results["result"] = (
+                "Reject H0 (variables are associated)"
+                if results["p_value"] < args.alpha
+                else "Fail to reject H0 (variables are independent)"
+            )
+
             # Print results
             calculator.print_results(results)
-        
+
         elif args.observed:
             # Goodness-of-fit test mode
             calculator = ChiSquareCalculator(
@@ -637,7 +647,7 @@ Examples:
 
             # Print results
             calculator.print_results(results)
-        
+
         else:
             parser.error("Either -o/--observed or -t/--table must be provided")
 
