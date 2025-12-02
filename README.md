@@ -55,7 +55,7 @@
 ### 1. 运行示例
 
 ```bash
-python chi_square_calculator.py
+python genetics1003.py
 ```
 
 这将运行三个预设的示例：
@@ -69,45 +69,45 @@ python chi_square_calculator.py
 #### 拟合优度检验 - 等比例期望分布
 
 ```bash
-python chi_square_calculator.py -o 10 15 20 25
+python genetics1003.py -o 10 15 20 25
 ```
 
 #### 拟合优度检验 - 指定期望频数
 
 ```bash
-python chi_square_calculator.py -o 10 15 20 25 -e 12 14 18 26
+python genetics1003.py -o 10 15 20 25 -e 12 14 18 26
 ```
 
 #### 拟合优度检验 - 指定期望比例
 
 ```bash
-python chi_square_calculator.py -o 45 55 -p 0.5 0.5
+python genetics1003.py -o 45 55 -p 0.5 0.5
 ```
 
 #### m×n列联表检验
 
 ```bash
 # 2×2列联表（4个值）
-python chi_square_calculator.py -t "20 10 5 15"
+python genetics1003.py -t "20 10 5 15"
 
 # 3×2列联表（使用分号分隔行）
-python chi_square_calculator.py -t "20 10; 15 8; 12 5"
+python genetics1003.py -t "20 10; 15 8; 12 5"
 
 # 2×3列联表（2行3列）
-python chi_square_calculator.py -t "15 8 12; 10 15 5"
+python genetics1003.py -t "15 8 12; 10 15 5"
 ```
 
 #### 哈温平衡检验
 
 ```bash
 # 提供三种基因型的计数（AA Aa aa）
-python chi_square_calculator.py --hw 50 40 10
+python genetics1003.py --hw 50 40 10
 ```
 
 #### 自定义显著性水平
 
 ```bash
-python chi_square_calculator.py -o 20 30 25 15 -a 0.01
+python genetics1003.py -o 20 30 25 15 -a 0.01
 ```
 
 ### 3. 参数说明
